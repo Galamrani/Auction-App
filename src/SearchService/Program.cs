@@ -2,7 +2,7 @@ using System.Net;
 using MassTransit;
 using Polly;
 using Polly.Extensions.Http;
-using SearchService.Consumer;
+using SearchService.Consumers;
 using SearchService.Data;
 using SearchService.Services;
 
@@ -19,6 +19,12 @@ builder.Services.AddMassTransit(x =>
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
     x.UsingRabbitMq((context, config) =>
     {
+        config.ReceiveEndpoint("search-auction-created", e =>
+        {
+            e.UseMessageRetry(r => r.Interval(5, 5));
+            e.ConfigureConsumer<AuctionCreatedConsumer>(context);
+        });
+
         config.ConfigureEndpoints(context);
     });
 });

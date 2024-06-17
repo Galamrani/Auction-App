@@ -56,15 +56,16 @@ public class AuctionsCotroller : ControllerBase
         var auction = _mapper.Map<Auction>(createAuctionDto);
 
         // TODO: add current user as seller
+
         auction.Seller = "test";
 
         _context.Auctions.Add(auction);
 
-        var result = await _context.SaveChangesAsync() > 0;
-
         var newAuction = _mapper.Map<AuctionDto>(auction);
 
         await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
+
+        var result = await _context.SaveChangesAsync() > 0;
 
         if (!result) return BadRequest("Could not save to the DB");
 
@@ -88,6 +89,8 @@ public class AuctionsCotroller : ControllerBase
         auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
         auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
 
+        await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
+
         if (await _context.SaveChangesAsync() > 0) return Ok();
 
         return BadRequest("Could not save to the DB");
@@ -99,6 +102,8 @@ public class AuctionsCotroller : ControllerBase
         var auction = await _context.Auctions.FindAsync(id);
 
         if (auction == null) return NotFound();
+
+        await _publishEndpoint.Publish(new AuctionDeleted { Id = auction.Id.ToString() });
 
         _context.Auctions.Remove(auction);
 
