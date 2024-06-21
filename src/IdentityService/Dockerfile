@@ -10,12 +10,8 @@ COPY src/SearchService/SearchService.csproj src/SearchService/SearchService.cspr
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj
 COPY src/Contracts/Contracts.csproj src/Contracts/Contracts.csproj
 COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityService.csproj
-<<<<<<< HEAD
 COPY tests/AuctionService.IntegrationTests/AuctionService.IntegrationTests.csproj tests/AuctionService.IntegrationTests/AuctionService.IntegrationTests.csproj
 COPY tests/AuctionService.UnitTests/AuctionService.UnitTests.csproj tests/AuctionService.UnitTests/AuctionService.UnitTests.csproj
-
-=======
->>>>>>> f14d2c6112037887ebe1c7c2f3e92f9e9c655bfc
 
 # Restore package deps
 RUN dotnet restore Auction-App.sln
