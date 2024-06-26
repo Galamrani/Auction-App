@@ -17,12 +17,14 @@ export default function Listings() {
     const [data, setData] = useState<PagedResult<Auction>>();
     const params = useParamsStore(state => ({
         pageNumber: state.pageNumber,
-        pageSize: 7,
+        pageSize: 8,
         searchTerm: state.searchTerm,
         orderBy: state.orderBy,
-        filterBy: state.filterBy
+        filterBy: state.filterBy,
+        seller: state.seller,
+        winner: state.winner
     }), shallow)
-    const setParams = useParamsStore(state => state.setParmas);
+    const setParams = useParamsStore(state => state.setParams);
     const url = qs.stringifyUrl({url: '', query: params})
 
     function setPageNumber(pageNumber: number) {

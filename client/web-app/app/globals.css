@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.margin-bottom {
+    margin-bottom: 60px; 
+}

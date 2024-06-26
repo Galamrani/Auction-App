@@ -1,14 +1,13 @@
 import { useParamsStore } from '@/hooks/useParamsStore'
 import { Button } from 'flowbite-react'
 import React from 'react'
-import { BsStopFill } from 'react-icons/bs';
 import { TbLivePhoto, TbLivePhotoOff } from "react-icons/tb";
 import { ImSortAlphaAsc } from "react-icons/im";
 import { IoTimer, IoTimeOutline } from "react-icons/io5";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 
 export default function Filters() {
-    const setParams = useParamsStore(state => state.setParmas)
+    const setParams = useParamsStore(state => state.setParams)
     const orderBy = useParamsStore(state => state.orderBy)
     const filterBy = useParamsStore(state => state.filterBy)
     
