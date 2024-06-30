@@ -26,7 +26,7 @@ public class SearchSeed
 
         var httpClient = scope.ServiceProvider.GetRequiredService<AuctionSvcHttpClient>();
 
-        var items = await httpClient.GetItemForSearchDb();
+        var items = await httpClient.GetItemsForSearchDb();
 
         if (items.Count > 0) await DB.SaveAsync(items);
     }

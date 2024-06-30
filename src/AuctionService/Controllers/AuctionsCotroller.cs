@@ -2,12 +2,10 @@
 using AuctionService.DTOs;
 using AuctionService.Entities;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Controllers;
 
@@ -15,7 +13,6 @@ namespace AuctionService.Controllers;
 [Route("api/auctions")]
 public class AuctionsCotroller : ControllerBase
 {
-    private readonly AuctionDbContext _context;
     private readonly IMapper _mapper;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IAuctionRepository _auctionRepository;

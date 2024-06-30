@@ -3,7 +3,7 @@ using MassTransit;
 using MongoDB.Entities;
 using SearchService.Entities;
 
-namespace SearchService;
+namespace SearchService.Consumers;
 
 public class AuctionFinishedConsumer : IConsumer<AuctionFinished>
 {
@@ -22,6 +22,7 @@ public class AuctionFinishedConsumer : IConsumer<AuctionFinished>
         }
 
         auction.Status = "Finished";
+
         await auction.SaveAsync();
     }
 }

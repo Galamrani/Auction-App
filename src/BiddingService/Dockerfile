@@ -18,13 +18,13 @@ COPY tests/AuctionService.UnitTests/AuctionService.UnitTests.csproj tests/Auctio
 RUN dotnet restore Auction-App.sln
 
 # Copy the app folders over
-COPY src/SearchService src/SearchService
+COPY src/BiddingService src/BiddingService
 COPY src/Contracts src/Contracts
-WORKDIR /app/src/SearchService
+WORKDIR /app/src/BiddingService
 RUN dotnet publish -c Release -o /app/src/out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/src/out .
-ENTRYPOINT [ "dotnet", "SearchService.dll" ]
+ENTRYPOINT [ "dotnet", "BiddingService.dll" ]
