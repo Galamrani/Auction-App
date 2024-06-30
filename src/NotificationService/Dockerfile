@@ -19,12 +19,13 @@ COPY tests/AuctionService.UnitTests/AuctionService.UnitTests.csproj tests/Auctio
 RUN dotnet restore Auction-App.sln
 
 # Copy the app folders over
-COPY src/GatewayService src/GatewayService
-WORKDIR /app/src/GatewayService
+COPY src/NotificationService src/NotificationService
+COPY src/Contracts src/Contracts
+WORKDIR /app/src/NotificationService
 RUN dotnet publish -c Release -o /app/src/out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/src/out .
-ENTRYPOINT [ "dotnet", "GatewayService.dll" ]
+ENTRYPOINT [ "dotnet", "NotificationService.dll" ]
