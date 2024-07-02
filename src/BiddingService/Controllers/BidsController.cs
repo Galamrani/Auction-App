@@ -63,7 +63,7 @@ namespace BiddingService.Controllers
                 if (highBid != null && amount > highBid.Amount || highBid == null)
                 {
                     bid.BidStatus = amount > auction.ReservePrice
-                        ? BidStatus.Accepted : BidStatus.AcceptedBelowReseve;
+                        ? BidStatus.Accepted : BidStatus.AcceptedBelowReserve;
                 }
 
                 if (highBid != null && amount <= highBid.Amount)

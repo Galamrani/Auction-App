@@ -3,7 +3,7 @@ namespace BiddingService.Entities
     public enum BidStatus
     {
         Accepted,
-        AcceptedBelowReseve,
+        AcceptedBelowReserve,
         TooLow,
         Finished
     }

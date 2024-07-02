@@ -33,7 +33,7 @@ export default function Search() {
             onChange={onChange}
             type="text" 
             placeholder='Search'
-            className='flex-grow pl-5 bg-transparent focus:outline-none border-transparent focus:border-transparent focus:ring-0 text-sm text-gray-6000'
+            className='input-custom text-sm text-gray-6000'
         />
         <button onClick={search}>
             <FaSearch size={34} className='bg-gray-800 text-white rounded-full p-2 cursor-pointer mx-2 hover:bg-red-600 transition-colors' />
