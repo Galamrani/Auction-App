@@ -18,7 +18,7 @@ type Props = {
 export default function UserActions({user}: Props) {
   const router = useRouter();
   const pathname = usePathname();
-  const setParams = useParamsStore(state => state.setParmas);
+  const setParams = useParamsStore(state => state.setParams);
    
   function setWinner() {
     setParams({winner: user.username, seller: undefined});
@@ -29,7 +29,6 @@ export default function UserActions({user}: Props) {
     if (pathname !== '/') router.push('/');
   }
 
-  console.log(user);
   return (
     <Dropdown label={`Welcome, ${user?.name}`} inline>
     <Dropdown.Item icon={HiUser} onClick={setSeller}>
