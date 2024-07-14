@@ -19,7 +19,7 @@ This project is a full-stack auction platform designed to host auctions, manage 
 - **Databases**: PostgreSQL, MongoDB
 - **Authentication**: IdentityServer
 - **Real-Time Communication**: SignalR
-- **Containerization**: Docker, Kubernetes
+- **Containerization**: Docker
 - **Frontend**: Next.js (App Router)
 - **Service Communication**: RabbitMQ, gRPC
 - **Proxy**: YARP Reverse Proxy
