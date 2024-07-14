@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import BidItem from './BidItem'
 import BidForm from './BidForm'
-import { numberWithCommas } from '@/lib/numberWithCommas'
+import { numberWithCommas } from '@/app/lib/numberWithCommas'
 
 type Props = {
     user: User | null

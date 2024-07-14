@@ -1,4 +1,4 @@
-import { numberWithCommas } from '@/lib/numberWithCommas'
+import { numberWithCommas } from '@/app/lib/numberWithCommas'
 import { Auction, AuctionFinished } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'

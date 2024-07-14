@@ -2,7 +2,7 @@
 
 import { placeBidForAuction } from '@/app/actions/auctionActions'
 import { useBidStore } from '@/hooks/useBidsStore'
-import { numberWithCommas } from '@/lib/numberWithCommas'
+import { numberWithCommas } from '@/app/lib/numberWithCommas'
 import { error } from 'console'
 import React from 'react'
 import { FieldValue, FieldValues, useForm } from 'react-hook-form'

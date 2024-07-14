@@ -1,4 +1,4 @@
-import { numberWithCommas } from '@/lib/numberWithCommas';
+import { numberWithCommas } from '@/app/lib/numberWithCommas';
 import { Bid } from '@/types'
 import { format } from 'date-fns';
 import React from 'react'

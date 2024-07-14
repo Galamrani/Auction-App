@@ -17,7 +17,7 @@ public static class Config
             new ApiScope("auctionApp", "Auction app full access")
         };
 
-    public static IEnumerable<Client> Clients =>
+    public static IEnumerable<Client> Clients(IConfiguration configuration) =>
         new Client[]
         {
             new Client
@@ -34,7 +34,7 @@ public static class Config
                 ClientId = "nextApp",
                 ClientName = "nextApp",
                 AllowedScopes = {"auctionApp", "openid", "profile"},
-                RedirectUris = {"http://localhost:3000/api/auth/callback/id-server"},
+                RedirectUris = {configuration["ClientApp"] + "/api/auth/callback/id-server"},
                 ClientSecrets = {new Secret("secret".Sha256())},
                 AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                 RequirePkce = false,

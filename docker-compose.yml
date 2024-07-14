@@ -1,3 +1,9 @@
+networks:
+  custom:
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+
 services:
   postgres:
     image: postgres
@@ -7,6 +13,9 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - custom
+
   mongodb:
     image: mongo
     environment:
@@ -15,12 +24,18 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongodata:/var/lib/mongodb/data
+      - mongodata:/data/db
+    networks:
+      - custom
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - custom
+
   auction-svc:
     image: galamrani/auction-svc:latest
     build:
@@ -29,7 +44,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ASPNETCORE_URLS=http://+:7777
       - RabbitMq__Host=rabbitmq
       - ConnectionStrings__DefaultConnection=Server=postgres:5432; User Id=postgres; Password=postgrespw; Database=auction
       - IdentityServiceUrl=http://identity-svc
@@ -43,6 +57,9 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+    networks:
+      - custom
+
   search-svc:
     image: galamrani/search-svc:latest
     build:
@@ -59,6 +76,9 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      - custom
+
   identity-svc:
     image: galamrani/identity-svc:latest
     build:
@@ -68,10 +88,14 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=postgres:5432; User Id=postgres; Password=postgrespw; Database=identity
-    ports:
-      - 5001:80
+      - VIRTUAL_HOST=id.myauctionsapp.com
+      - ClientApp=http://app.myauctionsapp.com
     depends_on:
       - postgres
+    networks:
+      custom:
+        ipv4_address: 10.5.0.200
+
   gateway-svc:
     image: galamrani/gateway-svc:latest
     build:
@@ -80,8 +104,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-    ports:
-      - 6001:80
+      - VIRTUAL_HOST=api.myauctionsapp.com
+      - ClientApp=https://app.myauctionsapp.com
+    networks:
+      - custom
+
   bid-svc:
     image: galamrani/bid-svc:latest
     build:
@@ -99,6 +126,9 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      - custom
+
   notify-svc:
     image: galamrani/notify-svc:latest
     build:
@@ -112,6 +142,41 @@ services:
       - 7004:80
     depends_on:
       - rabbitmq
+    networks:
+      - custom
+
+  web-app:
+    image: galamrani/web-app:latest
+    build:
+      context: .
+      dockerfile: client/web-app/Dockerfile
+    volumes:
+      - /var/lib/web/data
+    extra_hosts:
+      - id.myauctionsapp.com:10.5.0.200
+    environment:
+      - CLIENT_SECRET=secret
+      - NEXTAUTH_SECRET=bM9E8BGnkrrIdL95JaLhcM2nypcUPj7V
+      - NEXTAUTH_URL=http://app.myauctionsapp.com
+      - NEXTAUTH_URL_INTERNAL=http://web-app:3000
+      - API_URL=http://gateway-svc/
+      - ID_URL=http://id.myauctionsapp.com
+      - NEXT_PUBLIC_NOTIFY_URL=http://gateway-svc/notifications
+      - VIRTUAL_HOST=app.myauctionsapp.com
+      - VIRTUAL_PORT=3000
+    networks:
+      - custom
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - custom
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./devcerts:/etc/nginx/certs
 
 volumes:
   pgdata:

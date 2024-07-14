@@ -20,14 +20,17 @@ export default function SignalRProvider({children, user}: Props) {
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const setCurrentPrice = useAuctionStore(state => state.setCurrentPrice);
     const addBid = useBidStore(state => state.addBid);
+    const apiUrl = process.env.NODE_ENV === 'production' 
+    ? 'https://api.myauctionsapp.com/notifications'
+    : process.env.NEXT_PUBLIC_NOTIFY_URL
 
     useEffect(() => {
         const newConnetion = new HubConnectionBuilder()
-            .withUrl('http://localhost:6001/notifications')
+            .withUrl(apiUrl!)
             .withAutomaticReconnect()
             .build()
         setConnection(newConnetion);
-    }, []);
+    }, [apiUrl]);
 
     useEffect(() => {
         if (connection) {

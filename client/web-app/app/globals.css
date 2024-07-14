@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'react-datepicker/dist/react-datepicker.css';
 
 .react-datepicker-wrapper {
     width: 100%;
