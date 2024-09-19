@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-svc
+spec:
+  selector:
+    matchLabels:
+      app: webapp-svc
+  template:
+    metadata:
+      labels:
+        app: webapp-svc
+    spec:
+      containers:
+      - name: webapp-svc
+        image: galamrani/web-app
+        imagePullPolicy: Never
+        envFrom:
+          - configMapRef:
+              name: webapp-svc-config
+        ports:
+        - containerPort: 3000
+          name: web
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: webapp-svc
+  ports:
+  - port: 3000
+    targetPort: 3000
+
+

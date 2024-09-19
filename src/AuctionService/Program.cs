@@ -4,6 +4,9 @@ using AuctionService.Data;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Npgsql;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,14 +65,11 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapGrpcService<GrpcAuctionService>();
 
-try
-{
-    Seed.InitDb(app);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+var retryPolicy = Policy
+    .Handle<NpgsqlException>()
+    .WaitAndRetry(5, retryAttemp => TimeSpan.FromSeconds(5));
+retryPolicy.ExecuteAndCapture(() => Seed.InitDb(app));
+
 
 app.Run();
 

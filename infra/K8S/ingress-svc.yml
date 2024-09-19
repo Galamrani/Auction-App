@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-svc
+  labels:
+    na: ingress-svc
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: 
+      - app.myauctionsapp.localhost
+      - id.myauctionsapp.localhost
+      - api.myauctionsapp.localhost
+      secretName: myauctionsapp-app-tls
+  rules:
+  - host: app.myauctionsapp.localhost
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: webapp-clusterip
+            port: 
+              number: 3000
+  - host: api.myauctionsapp.localhost
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: gateway-clusterip
+            port: 
+              number: 80
+  - host: id.myauctionsapp.localhost
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: identity-clusterip
+            port: 
+              number: 80
