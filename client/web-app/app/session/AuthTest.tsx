@@ -13,8 +13,8 @@ export default function AuthTest() {
         setLoading(true);
         updateAuctionTest()
             .then(res => setResult(res))
+            .catch(err => setResult(err))
             .finally(() => setLoading(false))
-
     }
 
     return (

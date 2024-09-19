@@ -2,14 +2,14 @@ import { Bid } from "@/types"
 import { create } from "zustand"
 
 type State = {
-    bids: Bid[]
+    bids: Bid[],
     open: boolean
 }
 
 type Actions = {
     setBids: (bids: Bid[]) => void
     addBid: (bid: Bid) => void
-    setOpen: (value: boolean) => void
+    setOpen: (value: boolean) => void;
 }
 
 export const useBidStore = create<State & Actions>((set) => ({
@@ -23,7 +23,7 @@ export const useBidStore = create<State & Actions>((set) => ({
     },
 
     addBid: (bid: Bid) => {
-        set((state) => ({
+        set(state => ({
             bids: !state.bids.find(x => x.id === bid.id) ? [bid, ...state.bids] : [...state.bids]
         }))
     },

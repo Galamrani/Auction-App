@@ -2,25 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'react-datepicker/dist/react-datepicker.css';
-
 .react-datepicker-wrapper {
     width: 100%;
 }
 
-.margin-bottom {
-    margin-bottom: 60px; 
-}
-
 @layer components {
     .input-custom {
-        @apply
-        flex-grow
-        pl-5
-        bg-transparent 
-        focus:outline-none 
-        border-transparent 
-        focus:border-transparent 
-        focus:ring-0
+        @apply flex-grow pl-5 bg-transparent focus:outline-none border-transparent focus:border-transparent focus:ring-0
     }
 }

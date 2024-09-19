@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Listings from "./auctions/Listings";
+import Listings from './auctions/Listings';
 
 export default function Home() {
   return (
-   <div>
+    <div>
       <Listings />
-   </div>
+    </div>
   );
 }

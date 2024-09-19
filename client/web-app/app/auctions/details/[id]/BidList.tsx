@@ -1,21 +1,23 @@
-'use client'
+'use client';
 
-import { getBidsForAuction } from '@/app/actions/auctionActions'
-import { useBidStore } from '@/hooks/useBidsStore'
-import { Auction, Bid } from '@/types'
-import { User } from 'next-auth'
+import { getBidsForAuction } from '@/app/actions/auctionActions';
+import Heading from '@/app/components/Heading';
+import { useBidStore } from '@/hooks/useBidStore';
+import { Auction, Bid } from '@/types';
+import { User } from 'next-auth';
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
-import BidItem from './BidItem'
-import BidForm from './BidForm'
-import { numberWithCommas } from '@/app/lib/numberWithCommas'
+import toast from 'react-hot-toast';
+import BidItem from './BidItem';
+import { numberWithCommas } from '@/app/lib/numberWithComma';
+import EmptyFilter from '@/app/components/EmptyFilter';
+import BidForm from './BidForm';
 
 type Props = {
     user: User | null
     auction: Auction
 }
 
-export default function BidList({user, auction}: Props) {
+export default function BidList({ user, auction }: Props) {
     const [loading, setLoading] = useState(true);
     const bids = useBidStore(state => state.bids);
     const setBids = useBidStore(state => state.setBids);
@@ -23,12 +25,9 @@ export default function BidList({user, auction}: Props) {
     const setOpen = useBidStore(state => state.setOpen);
     const openForBids = new Date(auction.auctionEnd) > new Date();
 
-    const highBid = bids.reduce((prev, curr) => prev > curr.amount 
-        ? prev 
-        : curr.bidStatus.includes('Accepted')
-        ? curr.amount 
-        : prev ,0
-    );
+    const highBid = bids.reduce((prev, current) => prev > current.amount
+        ? prev
+        : current.bidStatus.includes('Accepted') ? current.amount : prev, 0)
 
     useEffect(() => {
         getBidsForAuction(auction.id)
@@ -36,15 +35,15 @@ export default function BidList({user, auction}: Props) {
                 if (res.error) {
                     throw res.error
                 }
-                setBids(res as Bid[]);
+                setBids(res as Bid[])
             }).catch(err => {
-                toast.error(err.message);
+                toast.error(err.message)
             }).finally(() => setLoading(false))
-    }, [auction.id, setLoading, setBids])
+    }, [auction.id, setLoading, setBids]);
 
     useEffect(() => {
         setOpen(openForBids);
-    }, [openForBids, setOpen]);
+    }, [openForBids, setOpen])
 
     if (loading) return <span>Loading bids...</span>
 
@@ -52,15 +51,16 @@ export default function BidList({user, auction}: Props) {
         <div className='rounded-lg shadow-md'>
             <div className='py-2 px-4 bg-white'>
                 <div className='sticky top-0 bg-white p-2'>
-                    <h1 className='m-auto font-semibold text-gray-700 p-2 bg-blue-300 rounded-md shadow'><strong>Current highest bid: ${numberWithCommas(highBid)}</strong></h1>
+                    <Heading title={`Current high bid is $${numberWithCommas(highBid)}`} />
                 </div>
             </div>
 
             <div className='overflow-auto h-[400px] flex flex-col-reverse px-2'>
                 {bids.length === 0 ? (
-                    <h2 className='m-auto text-xl font-semibold text-center p-4 bg-gray-300 rounded-md shadow'>
-                        No bids have been placed yet.
-                    </h2>
+                    <EmptyFilter
+                        title='No bids for this item'
+                        subtitle='Please feel free to make a bid'
+                    />
                 ) : (
                     <>
                         {bids.map(bid => (
@@ -87,6 +87,7 @@ export default function BidList({user, auction}: Props) {
                     <BidForm auctionId={auction.id} highBid={highBid} />
                 )}
             </div>
+
         </div>
     )
 }

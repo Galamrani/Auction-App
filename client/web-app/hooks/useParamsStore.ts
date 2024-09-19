@@ -6,16 +6,16 @@ type State = {
     pageCount: number
     searchTerm: string
     searchValue: string
-    orderBy: string
-    filterBy: string
+    orderBy: string,
+    filterBy: string,
     seller?: string
     winner?: string
 }
 
 type Actions = {
+    setSearchValue: (value: string) => void
     setParams: (params: Partial<State>) => void
     reset: () => void
-    setSearchValue: (value: string) => void
 }
 
 const initialState: State = {
@@ -43,7 +43,9 @@ export const useParamsStore = create<State & Actions>()((set) => ({
         })
     },
 
-    reset: () => set(initialState),
+    reset: () => {
+        set(initialState)
+    },
 
     setSearchValue: (value: string) => {
         set({searchValue: value})
