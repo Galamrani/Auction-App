@@ -13,6 +13,18 @@ jobs:
         service:
           - name: "galamrani/auction-svc"
             path: "src/AuctionService"
+          - name: "galamrani/search-svc"
+            path: "src/SearchService"
+          - name: "galamrani/bid-svc"
+            path: "src/BiddingService"
+          - name: "galamrani/identity-svc"
+            path: "src/IdentityService"
+          - name: "galamrani/gateway-svc"
+            path: "src/GatewayService"
+          - name: "galamrani/notify-svc"
+            path: "src/NotificationService"
+          - name: "galamrani/web-app"
+            path: "client/web-app"
 
     steps:
       - name: Checkout code
