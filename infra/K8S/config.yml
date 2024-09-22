@@ -3,12 +3,12 @@ kind: ConfigMap
 metadata:
   name: auction-svc-config
 data:
-  ASPNETCORE_URLS: http://+:80
+  ASPNETCORE_URLS: http://+:80;http://+7777
   RabbitMq__Host: rabbit-clusterip
   RabbitMq__Username: rabbit
   RabbitMq__Password: rabbitpw
-  ConnectionStrings__DefaultConnection: Server=postgres-clusterip:5432; User Id=postgres; Password=postgrespw; Database=auction
-  IdentityServiceUrl: http://identity-svc
+  ConnectionStrings__DefaultConnection: Server=postgres-clusterip;User Id=postgres; Password=postgrespw; Database=auctions
+  IdentityServiceUrl: http://identity-clusterip
   Kestrel__Endpoints__Grpc__Protocols: Http2
   Kestrel__Endpoints__Grpc__Url: http://+:7777
   Kestrel__Endpoints__WebApi__Protocols: Http1
@@ -74,8 +74,10 @@ metadata:
   name: identity-svc-config
 data:
   ASPNETCORE_URLS: http://+:80
-  ConnectionStrings__DefaultConnection: Server=postgres-clusterip:5432; User Id=postgres; Password=postgrespw; Database=identity
+  ConnectionStrings__DefaultConnection: Server=postgres-clusterip;User Id=postgres; Password=postgrespw; Database=identity
   ClientApp: https://app.myauctionsapp.localhost
+  IssuerUri: https://id.myauctionsapp.localhost
+
 
 ---
 
@@ -84,13 +86,14 @@ kind: ConfigMap
 metadata:
   name: webapp-svc-config
 data:
-  CLIENT_SECRET: secret
-  NEXTAUTH_SECRET: bM9E8BGnkrrIdL95JaLhcM2nypcUPj7V
-  NEXTAUTH_URL: https://app.myauctionsapp.localhost
-  NEXTAUTH_URL_INTERNAL: http://webapp-clusterip:3000
+  AUTH_SECRET: "bM9E8BGnkrrIdL95JaLhcM2nypcUPj7V"
+  AUTH_URL: https://app.myauctionsapp.localhost
+  AUTH_URL_INTERNAL: http://webapp-clusterip:3000
   API_URL: http://gateway-clusterip/
-  ID_URL: http://id.myauctionsapp.localhost
-  NEXT_PUBLIC_NOTIFY_URL: https://gateway-clusterip/notifications
+  ID_URL: https://id.myauctionsapp.localhost
+  ID_URL_INTERNAL: http://identity-clusterip
+  NOTIFY_URL: https://api.myauctionsapp.localhost/notifications
+
 
 
 

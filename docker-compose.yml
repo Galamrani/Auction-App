@@ -57,9 +57,7 @@ services:
       - AuctionServiceUrl=http://auction-svc
     ports:
       - 7002:80
-    depends_on:
-      - mongodb
-      - rabbitmq
+
   identity-svc:
     image: galamrani/identity-svc:latest
     build:
@@ -72,8 +70,7 @@ services:
       - ClientApp=https://app.myauctionsapp.localhost
       - ConnectionStrings__DefaultConnection=Server=postgres; User Id=postgres; Password=postgrespw; Database=identity
       - VIRTUAL_HOST=id.myauctionsapp.localhost
-    depends_on:
-      - postgres
+
   gateway-svc:
     image: galamrani/gateway-svc:latest
     build:
@@ -98,9 +95,7 @@ services:
       - GrpcAuction=http://auction-svc:7777
     ports:
       - 7003:80
-    depends_on:
-      - mongodb
-      - rabbitmq
+
   notify-svc:
     image: galamrani/notify-svc:latest
     build:
@@ -112,8 +107,7 @@ services:
       - RabbitMq__Host=rabbitmq
     ports:
       - 7004:80
-    depends_on:
-      - rabbitmq
+
   web-app:
     image: galamrani/web-app
     build:

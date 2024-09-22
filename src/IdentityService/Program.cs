@@ -22,8 +22,7 @@ try
         .ConfigureServices()
         .ConfigurePipeline();
 
-    // this seeding is only for the template to bootstrap the DB and users.
-    // in production you will likely want a different approach.
+
     var retryPolicy = Policy
     .Handle<NpgsqlException>()
     .WaitAndRetry(5, retryAttemp => TimeSpan.FromSeconds(5));
