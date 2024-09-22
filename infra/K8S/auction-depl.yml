@@ -15,6 +15,22 @@ spec:
       - name: auction-svc
         image: galamrani/auction-svc
         imagePullPolicy: Never
+        env:
+          - name: ConnectionStrings__DefaultConnection
+            valueFrom:
+              secretKeyRef:
+                name: auction-secret
+                key: connString
+          - name: RabbitMq__Username
+            valueFrom:
+              secretKeyRef:
+                name: rabbit-secret
+                key: username
+          - name: RabbitMq__Password
+            valueFrom:
+              secretKeyRef:
+                name: rabbit-secret
+                key: password
         envFrom:
           - configMapRef:
               name: auction-svc-config

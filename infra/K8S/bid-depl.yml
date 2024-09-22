@@ -15,6 +15,22 @@ spec:
       - name: bid-svc
         image: galamrani/bid-svc
         imagePullPolicy: Never
+        env:
+          - name: ConnectionStrings__BidDbConnection
+            valueFrom:
+              secretKeyRef:
+                name: bid-secret
+                key: connString
+          - name: RabbitMq__Username
+            valueFrom:
+              secretKeyRef:
+                name: rabbit-secret
+                key: username
+          - name: RabbitMq__Password
+            valueFrom:
+              secretKeyRef:
+                name: rabbit-secret
+                key: password
         envFrom:
           - configMapRef:
               name: bid-svc-config
