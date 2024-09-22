@@ -60,7 +60,7 @@ jobs:
         if: env.continue == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ${{matrix.service.path}} # Use the service path as context
+          context: .
           file: ${{matrix.service.path}}/Dockerfile
           push: true
           tags: ${{matrix.service.name}}:latest
