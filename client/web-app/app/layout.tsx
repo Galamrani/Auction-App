@@ -4,7 +4,7 @@ import "./globals.css";
 import ToasterProvider from './providers/ToasterProvider';
 import SignalRProvider from './providers/SignalRProvider';
 import { getCurrentUser } from './actions/authActions';
-import Navbar from "./nav/NavBar";
+import NavBar from './nav/NavBar';
 
 export const metadata: Metadata = {
   title: "Auction Platform",
@@ -23,7 +23,7 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <ToasterProvider />
-        <Navbar />
+        <NavBar />
         <main className='container mx-auto px-5 pt-10'>
           <SignalRProvider user={user} notifyUrl={notifyUrl!}>
             {children}
