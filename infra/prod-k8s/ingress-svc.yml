@@ -2,10 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-svc
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
   labels:
     na: ingress-svc
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - app.carsbid.store
+    - api.carsbid.store
+    - id.carsbid.store
+    secretName: carsbid-tls
   rules:
   - host: app.carsbid.store
     http:
