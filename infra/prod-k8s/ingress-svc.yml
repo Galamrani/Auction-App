@@ -6,14 +6,8 @@ metadata:
     na: ingress-svc
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts: 
-      - app.myauctionsapp.localhost
-      - id.myauctionsapp.localhost
-      - api.myauctionsapp.localhost
-      secretName: myauctionsapp-app-tls
   rules:
-  - host: app.myauctionsapp.localhost
+  - host: app.carsbid.store
     http:
       paths:
       - pathType: Prefix
@@ -23,7 +17,7 @@ spec:
             name: webapp-clusterip
             port: 
               number: 3000
-  - host: api.myauctionsapp.localhost
+  - host: api.carsbid.store
     http:
       paths:
       - pathType: Prefix
@@ -33,7 +27,7 @@ spec:
             name: gateway-clusterip
             port: 
               number: 80
-  - host: id.myauctionsapp.localhost
+  - host: id.carsbid.store
     http:
       paths:
       - pathType: Prefix
