@@ -13,8 +13,7 @@ spec:
     spec:
       containers:
       - name: identity-svc
-        image: galamrani/identity-svc
-        imagePullPolicy: Never
+        image: galamrani/identity-svc:latest
         env:
           - name: ConnectionStrings__DefaultConnection
             valueFrom:

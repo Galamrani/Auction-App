@@ -64,3 +64,21 @@ jobs:
           file: ${{matrix.service.path}}/Dockerfile
           push: true
           tags: ${{matrix.service.name}}:latest
+
+  apply-k8s:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save auction-app
+
+      - name: Apply the K8S deployments
+        run: kubectl apply -f infra/K8S && kubectl apply -f infra/prod-k8s

@@ -13,8 +13,7 @@ spec:
     spec:
       containers:
       - name: webapp-svc
-        image: galamrani/web-app
-        imagePullPolicy: Never
+        image: galamrani/web-app:latest
         env:
           - name: AUTH_SECRET
             valueFrom:

@@ -13,8 +13,7 @@ spec:
     spec:
       containers:
       - name: bid-svc
-        image: galamrani/bid-svc
-        imagePullPolicy: Never
+        image: galamrani/bid-svc:latest
         env:
           - name: ConnectionStrings__BidDbConnection
             valueFrom:

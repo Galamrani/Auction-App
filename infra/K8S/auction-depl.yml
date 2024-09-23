@@ -13,8 +13,7 @@ spec:
     spec:
       containers:
       - name: auction-svc
-        image: galamrani/auction-svc
-        imagePullPolicy: Never
+        image: galamrani/auction-svc:latest
         env:
           - name: ConnectionStrings__DefaultConnection
             valueFrom:
