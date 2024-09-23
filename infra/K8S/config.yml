@@ -52,7 +52,7 @@ metadata:
   name: gateway-svc-config
 data:
   ASPNETCORE_URLS: http://+:80
-  ClientApp: https://app.myauctionsapp.localhost
+  ClientApp: https://app.carsbid.store
   IdentityServiceUrl: http://identity-clusterip
 
 ---
@@ -63,8 +63,8 @@ metadata:
   name: identity-svc-config
 data:
   ASPNETCORE_URLS: http://+:80
-  ClientApp: https://app.myauctionsapp.localhost
-  IssuerUri: https://id.myauctionsapp.localhost
+  ClientApp: https://app.carsbid.store
+  IssuerUri: https://id.carsbid.store
 
 
 ---
@@ -74,12 +74,12 @@ kind: ConfigMap
 metadata:
   name: webapp-svc-config
 data:
-  AUTH_URL: https://app.myauctionsapp.localhost
+  AUTH_URL: https://app.carsbid.store
   AUTH_URL_INTERNAL: http://webapp-clusterip:3000
   API_URL: http://gateway-clusterip/
-  ID_URL: https://id.myauctionsapp.localhost
+  ID_URL: https://id.carsbid.store
   ID_URL_INTERNAL: http://identity-clusterip
-  NOTIFY_URL: https://api.myauctionsapp.localhost/notifications
+  NOTIFY_URL: https://api.carsbid.store/notifications
 
 
 
