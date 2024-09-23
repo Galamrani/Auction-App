@@ -109,7 +109,7 @@ services:
       - 7004:80
 
   web-app:
-    image: galamrani/web-app
+    image: galamrani/web-app:latest
     build:
       context: .
       dockerfile: client/web-app/Dockerfile
