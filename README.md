@@ -10,10 +10,6 @@ Welcome to the Auction Platform, a scalable and microservices-based solution for
 - [Services](#services)
 - [Client Application](#client-application)
 - [Deployment](#deployment)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
