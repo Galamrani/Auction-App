@@ -1,94 +1,99 @@
-# Auction Platform
+## Auction Platform - README
 
-## Overview
+Welcome to the Auction Platform, a scalable and microservices-based solution for managing online auctions. This project is built to handle auction creation, bidding, search functionalities, user notifications, and more. It leverages modern development practices, such as event-driven communication via RabbitMQ and gRPC for inter-service communication, and is fully containerized for easy deployment. The platform has been deployed to the web using **DigitalOcean** and **Kubernetes** for seamless scalability and management.
 
-This project is a full-stack auction platform designed to host auctions, manage real-time bidding, and provide live notifications. It is built using a microservices architecture, ensuring scalability, maintainability, and ease of development.
+### Table of Contents
 
-## Features
+- [Features](#features)
+- [Architecture](#architecture)
+- [Technologies](#technologies)
+- [Services](#services)
+- [Client Application](#client-application)
+- [Deployment](#deployment)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
-- **Auction Management**: Create, edit, delete, and manage auctions, including setting starting bids, auction durations, and detailed descriptions.
-- **Search Functionality**: Search for auctions using various criteria, name, and auction status.
-- **User Authentication**: Register as a new user, log in securely, and access the auctions dashboard.
-- **Bidding Management**: Place bids on active auctions in real-time, and view the current highest bids.
-- **Real-Time Notifications**: Receive instant notifications for bid updates, auction status changes, and new auction.
-- **Client Interface**: Utilize the user-friendly interface to navigate the platform, view auction details, and manage your account settings and auctions.
+---
 
-## Technologies Used
+### Features
 
-- **Backend**: ASP.NET Core, C#
-- **Databases**: PostgreSQL, MongoDB
-- **Authentication**: IdentityServer
-- **Real-Time Communication**: SignalR
-- **Containerization**: Docker
-- **Frontend**: Next.js (App Router)
-- **Service Communication**: RabbitMQ, gRPC
-- **Proxy**: YARP Reverse Proxy
+- **Auction Management**: Create, update, and delete auctions.
+- **Bidding System**: Place and track bids in real-time.
+- **Search Functionality**: Search for auction items based on various criteria.
+- **Notification System**: Real-time notifications for auction events (e.g., bids, auction updates).
+- **User Management**: Secure login, registration, and authentication system using Identity Service.
+- **Event-Driven Architecture**: Services communicate asynchronously using RabbitMQ.
+- **gRPC Communication**: Synchronous communication between microservices where needed.
+- **Gateway Service**: Acts as a single entry point for all client requests and routes them to the appropriate backend services.
+- **Highly Scalable and Containerized**: Dockerized services for seamless deployment and scaling.
+- **Cloud Deployment**: Deployed using **DigitalOcean** with **Kubernetes** for high availability and scalability.
 
-## Architecture
+### Architecture
 
-### Asynchronous Communication Bus
+The Auction Platform follows a **microservices architecture**, where each service is responsible for a specific functionality. These services are independently deployable and communicate via event bus, event-driven messaging (RabbitMQ), or gRPC.
 
-- **Responsibilities**: Facilitates communication between microservices.
-- **Tools**: Utilizes RabbitMQ and gRPC for message passing.
-- **Key Features**:
-  - Ensures efficient and reliable communication between Auction, Search, Bidding, and Notification services.
-  - Supports a decoupled architecture for improved scalability and maintainability.
-  - Handles high volumes of messages to keep the platform responsive under heavy load.
+- **RabbitMQ**: Manages asynchronous messaging for events like auction creation, updates, and bid placements.
+- **gRPC**: Synchronous communication between services for real-time responses.
+- **API Gateway**: The **Gateway Service** consolidates requests from the client, providing a single entry point for all backend services, handling routing, load balancing, and security.
+- **Databases**:
+  - **PostgreSQL**: Relational database for structured data, such as user information and auction details.
+  - **MongoDB**: NoSQL database for fast and scalable storage of unstructured auction-related data (e.g., items for search).
 
-### Gateway Service
+---
 
-- **Responsibilities**: Manages communication between backend services and the frontend.
-- **Proxy**: Utilizes YARP Reverse Proxy for routing requests.
-- **Key Features**:
-  - Provides a centralized routing mechanism for all client requests.
-  - Acts as a unified access point, simplifying interactions with various backend services.
+### Technologies
 
-### Auction Service
+- **ASP.NET Core** for the microservices.
+- **RabbitMQ** for message-based communication.
+- **gRPC** for high-performance, synchronous inter-service calls.
+- **Docker** for containerizing the services.
+- **Kubernetes** for managing deployment and scaling in DigitalOcean.
+- **PostgreSQL** as the primary relational database.
+- **MongoDB** as the NoSQL database for search-related data.
+- **IdentityServer** for authentication and authorization.
+- **SignalR** for real-time notifications.
 
-- **Responsibilities**: Manages auction creation, deletion and data storage.
-- **Data Storage**: Utilizes PostgreSQL data management.
-- **Key Features**:
-  - Users can delete and create new auctions with detailed descriptions, starting bids, and auction durations.
-  - Administrators can edit and manage all active and completed auctions.
-  - Ensures robust data storage with PostgreSQL.
+---
 
-### Search Service
+### Services
 
-- **Responsibilities**: Implements auction search functionality.
-- **Data Storage**: Uses MongoDB for efficient search operations.
-- **Data Integrity**: Ensures consistency via synchronous HTTP communication with the Auction Service.
-- **Key Features**:
-  - Supports searches with various filters such as names, durations, and auction status.
-  - Delivers fast and accurate search results using MongoDB’s querying capabilities.
+1. **Auction Service**: Manages auctions including creation, updates, and deletion (CRUD operations).
+2. **Bidding Service**: Handles all bidding-related operations.
+3. **Search Service**: Allows users to search for auctions based on various criteria.
+4. **Notification Service**: Sends real-time notifications to users for auction events.
+5. **Identity Service**: Responsible for user authentication and authorization, ensuring secure access to the platform.
+6. **Gateway Service**: Acts as a reverse proxy, routing incoming HTTP/gRPC requests to the appropriate backend service.
+7. **RabbitMQ**: Handles event-based communication between services.
+8. **PostgreSQL**: Stores structured data like user accounts and auction details.
+9. **MongoDB**: Stores and retrieves unstructured auction item data, optimized for search.
 
-### Identity Service
+---
 
-- **Responsibilities**: Manages user authentication.
-- **Data Storage**: Securely stores user credentials and profiles in PostgreSQL.
-- **Key Features**:
-  - Provides secure login and registration processes using IdentityServer.
+### Client Application
 
-### Bidding Service
+The platform includes a **Next.js** client-side application that interacts with the backend microservices via the **Gateway Service**. The Next.js app provides users with:
 
-- **Responsibilities**: Manages all auction bids.
-- **Data Storage**: Stores bid data in MongoDB for easy retrieval and analysis.
-- **Key Features**:
-  - Allows users to place bids in real-time with immediate updates.
-  - Maintains a log of all bids.
-  - Manages bid conflicts and ensures the highest valid bid is always recognized.
+- Browsing and searching auction listings.
+- Placing bids in real-time.
+- Managing user accounts, registration, and login.
+- Receiving real-time notifications on bid updates, auction status changes, etc.
 
-### Notification Service
+The Next.js client communicates with the backend using **REST APIs** exposed by the Gateway Service, ensuring an optimized and scalable frontend experience.
 
-- **Responsibilities**: Sends real-time notifications about bidding and auction updates.
-- **Communication**: Uses SignalR for real-time updates.
-- **Key Features**:
-  - Sends instant notifications to users about bidding activities, auction status changes, and new auction listings.
-  - Enhances user engagement with timely and relevant updates.
+---
 
-### Client App
+### Deployment
 
-- **Responsibilities**: Provides a user interface for interacting with the platform.
-- **Framework**: Built with Next.js for a good user experience.
-- **Key Features**:
-  - Offers a user-friendly and intuitive interface.
-  - Includes interactive elements such as live bid counters, auction timers, and user dashboard.
+This project is deployed using **DigitalOcean** and orchestrated with **Kubernetes**. Each service is containerized using **Docker**, ensuring that the platform can scale efficiently and handle high levels of traffic.
+
+Key deployment highlights:
+
+- **DigitalOcean Kubernetes** manages the containers and ensures high availability.
+- **Load Balancer** efficiently distributes incoming traffic across multiple backend services, ensuring optimal performance and preventing overloading of any single service.
+- **RabbitMQ** and **gRPC** handle messaging and inter-service communication.
+- **Gateway Service** acts as an entry point for routing client requests to the appropriate backend services.
+- **Identity Server** secures the platform with robust authentication and authorization protocols.
+
+You can access the deployed application at: **[app.carsbid.store](https://app.carsbid.store)**.
