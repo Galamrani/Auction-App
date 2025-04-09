@@ -92,4 +92,4 @@ Key deployment highlights:
 - **Gateway Service** acts as an entry point for routing client requests to the appropriate backend services.
 - **Identity Server** secures the platform with robust authentication and authorization protocols.
 
-You can access the deployed application at: **[app.carsbid.store](https://app.carsbid.store)**.
+
